@@ -17,10 +17,9 @@ import os
 
 
 # Enter the file path of the dataset
-file_path = "samples_data.txt"
+file_path = "C:/Users/MBK/Desktop/temp bev/samples_data.txt"
 
 ##### Functions ######
-
 
 def generating_feat_equi_random_array(n):
     # n is number of features. It should be even number so that it could easily
@@ -131,17 +130,17 @@ def generate_rand_val_first_branches():
     random_value = round(random.uniform(0, 1), 2)
 
     if random_value <= 0.25:
-        new_array_name = 'p00'
+        # 'p00'
         new_random_array = [0, 0]
 
     elif 0.25 < random_value <= 0.5:
-        new_array_name = 'p01'
+        # 'p01'
         new_random_array = [0, 1]
     elif 0.5 < random_value <= 0.75:
-        new_array_name = 'p10'
+        # 'p10'
         new_random_array = [1, 0]
     else:
-        new_array_name = 'p11'
+        # 'p11'
         new_random_array = [1, 1]
 
     return new_random_array, random_value
@@ -164,7 +163,6 @@ def pair_array_to_name(array_pair):
 
 
 def second_lvl_branches(proba_list):
-    ref_value = 1.0
     temp_proba_list = proba_list
     checkpoints = []
     prev_checkpoint = 0
@@ -179,17 +177,17 @@ def second_lvl_branches(proba_list):
     random_value = round(random.uniform(0, 1), 2)
 
     if random_value <= checkpoints[0]:
-        new_array_name = 'p00'
+        # 'p00'
         new_random_array = [0, 0]
 
     elif checkpoints[0] < random_value <= checkpoints[1]:
-        new_array_name = 'p01'
+        # 'p01'
         new_random_array = [0, 1]
     elif checkpoints[1] < random_value <= checkpoints[2]:
-        new_array_name = 'p10'
+        # 'p10'
         new_random_array = [1, 0]
     else:
-        new_array_name = 'p11'
+        # 'p11'
         new_random_array = [1, 1]
 
     return new_random_array, random_value
@@ -228,7 +226,7 @@ def second_level_onward_branches(parent_couple_array, parent_couple_proba, flag,
             # Generating random value between 0 to 1 and selecting reward winner couple
             new_random_array, random_value = second_lvl_branches(proba_list)
 
-            if counter < 4:
+            if counter < 4: # to print upto 4 first couples probability
                 counter += 1
 
             locals()[couple_name][couple_number] = new_random_array
@@ -240,7 +238,8 @@ def second_level_onward_branches(parent_couple_array, parent_couple_proba, flag,
         # Running Knn classifier on new random array values
         new_accuracy, number_of_features, flag = knn_classifier(
             data_df, locals()[couple_name], flag)
-        if flag == 1:
+        
+        if flag == 1:# abandoned function
             flag = 0
 
         arrays_acc[couple_name] = new_accuracy
@@ -428,6 +427,7 @@ def saving_best_features(dataset, couple_arrays):
 
     # Removing headers
     x = x.iloc[0:, :]
+    
     # create 'best features' folder if it doesn't exist
     best_feat_folder = os.path.join(dir_path, 'best features')
     if not os.path.exists(best_feat_folder):
@@ -436,7 +436,6 @@ def saving_best_features(dataset, couple_arrays):
     best_feat_file_name = "{}/data_exp_{}_stage_{}_acc_{}_feat_{}.txt".format(
         best_feat_folder, repeat_experiment, stage, round(metrics.accuracy_score(y_test, y_pred), 2), number_of_features)
 
-    print("SAVING THE Best DATA !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     # Saving Changes to data file
     x.to_csv(best_feat_file_name, index=False, header=None)
 
@@ -448,8 +447,10 @@ def saving_best_features(dataset, couple_arrays):
 
 # Get the directory path from the file path
 dir_path = os.path.dirname(file_path)
+
 # Get the file name without the directory path
 base_file_name = os.path.basename(file_path)
+
 # Split the file name to get the base name and extension
 base_name, file_extension = os.path.splitext(base_file_name)
 
@@ -459,14 +460,15 @@ m = 36                      # after 'm' branches, selecting top 'x' branches
 x = 9                       # selecting top best 'x' branches
 j = 5                       # Number of time new level branches executes
 
-# initiating necessary parameters
+## initiating necessary parameters
 repeat_experiment = 0       # Current experiment number
+
 # store top couple performers accuracy throughout all experiments
 top_acc_all_experiments = {}
 # store 'nbr of features' for top couple performers accuracy
 number_of_feat_all_exp = {}
 
-stage_limit = 16
+stage_limit = 50
 while repeat_experiment < max_experiments:
     ###################################################################################################
     ################### S T A R T  R E A D I N G ,  S H U F F L I N G  D A T A ########################
@@ -497,14 +499,13 @@ while repeat_experiment < max_experiments:
                     index=data_df.loc[data_df[0] == class_name].index[0], axis=0, inplace=True)
     
     # Saving Changes to data file
-    print("DIR Path = ", dir_path)
-    print("Done printing !!!!!!")
     data_df.to_csv("{}/samples_data2.txt".format(dir_path),
                    index=False, header=None)
     
     # Shuffling Data
     data_df = data_df.sample(frac=1, axis=0).sample(
         frac=1).reset_index(drop=True)
+
     ###################################################################################################
     ####################### E N D  R E A D I N G ,  S H U F F L I N G  D A T A ########################
     ###################################################################################################
@@ -548,8 +549,8 @@ while repeat_experiment < max_experiments:
 
             # Setting Parameters
             covered_nbr_branches = 0  # Number of cycles already processed
-            k = 0                    # initiating k to compare it with number of times loop executed
-            array_limit = 3          # Number of branches created out of parent branch
+            k = 0                     # initiating k to compare it with number of times loop executed
+            array_limit = 3           # Number of branches created out of parent branch
             
             # Initiating Dictionaries
             couples_acc = {}               # It will store accuracies of different couple arrays
@@ -568,18 +569,23 @@ while repeat_experiment < max_experiments:
             # Initially Generating Random Binary Digits equivalent to number of features
             random_features_array = generating_feat_equi_random_array(
                 nbr_of_feat)
+            
             # Making pair for random generated binary digits
             couple_array_0 = Initializing_couple_value(random_features_array)
+            
             # Initializing equal probability to every pair
             couple_proba_0 = initializing_arrays_probability(couple_array_0)
+            
             # Accuracy without applying feature selection technique
             prev_accuracy, number_of_features, flag = knn_classifier(
                 data_df, couple_array_0, flag)
-            if flag == 1:
+            
+            if flag == 1: # abandoned function
                 flag = 0
             
             # Possoble pairs list
             possible_pairs_str = ['00', '01', '10', '11']
+            
             for f in range(array_limit):
                 # Array_limit is the number of random generated arrays in the first iteration
                 # New_couple_number is the number of new arrays created so far
@@ -607,17 +613,21 @@ while repeat_experiment < max_experiments:
                     if counter < 4:
                         counter += 1
                 ######################## E N D  G E N E R A T I N G  N E W  R A N D O M   A R R A Y ############################
+                
                 # Storing data in a dictionary
                 couples_arrays_dict[couple_name] = copy.deepcopy(
                     locals()[couple_name])
+                
                 # Running Knn classifier on new random array values
                 new_accuracy, number_of_features, flag = knn_classifier(
                     data_df, locals()[couple_name], flag)
                 if flag == 1:
                     flag = 0
+                
                 # Storing accuracy of every generated array
                 arrays_acc[couple_name] = new_accuracy
                 all_nbr_of_feat[couple_name] = number_of_features
+                
                 # defining eps
                 eps = 0.2*np.tanh(abs(new_accuracy-prev_accuracy))
                 
@@ -675,13 +685,10 @@ while repeat_experiment < max_experiments:
             
             ####### Exceuting Second level branches and onwards #######
             while k < j:
-                print("Entered while k < j@@@@@@@@@@@@@@@  ")
    
                 # Making temporary copied list so that changes can be done to main list
                 temp_to_be_process_brances = copy.deepcopy(
                     to_be_process_branches)
-                print("temp_to_be_process_branches = ",
-                      temp_to_be_process_brances)
                 
                 for n in temp_to_be_process_brances:
                     print("Parent couple = ", 'couple_array_{}'.format(n))
@@ -691,8 +698,6 @@ while repeat_experiment < max_experiments:
                     covered_nbr_branches = branches_covered
                     # removing already executed branches
                     to_be_process_branches.remove(n)
-                
-                print("len(couples_arrays_dict.keys()) = ", len(couples_arrays_dict.keys()))
 
                 # if number of generated branches exceeds 'm', then select top 'x' branches
                 if len(couples_arrays_dict.keys()) >= m:
