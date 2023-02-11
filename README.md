@@ -25,4 +25,4 @@ python bev.py
 ```
 
 *	Upon completion of the feature selection process, the selected feature files will be automatically saved in the "best features" folder, located in the root directory of the project.
-*	The detailed statistics for each selected feature file, including the experiment number, stage number, accuracy, and number of features, will be embedded in the data file name, as illustrated in the image below ![Screenshot](sample_best_features_files.png) 
+*	The detailed statistics for each selected features file, including the experiment number, stage number, accuracy, and number of features, will be embedded in the data file name, as illustrated in the image below ![Screenshot](sample_best_features_files.png) 
