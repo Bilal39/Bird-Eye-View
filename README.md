@@ -26,3 +26,12 @@ python bev.py
 
 *	Upon completion of the feature selection process, the selected feature files will be automatically saved in the "best features" folder, located in the root directory of the project.
 *	The detailed statistics for each selected features file, including the experiment number, stage number, accuracy, and number of features, will be embedded in the data file name, as illustrated in the image below ![Screenshot](sample_best_features_files.png) 
+
+# Data preparation Guidance
+*	The data must be in CSV format.
+*	The output column should be placed as the first column (i.e., zero index) in the file.
+*	There can be any number of input columns as needed.
+*	The data file should have only one header row at the top, specifying the column names.
+*	Sample prepared data files are saved in the datasets folder.
+
+It is recommended to perform some basic data exploration and cleaning to ensure the data is accurate, consistent, and free from errors.
