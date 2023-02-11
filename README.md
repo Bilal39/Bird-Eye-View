@@ -18,7 +18,7 @@ Ensure that the command is executed in the root directory of the project. Additi
 # Instructions to use BEV
 
 *	Clone the repository and install the necessary libraries.
-*	Prepare the data file and specify its path in the bev.py, located at line number 20.
+*	Prepare the data file and specify its full path(not relative path) in the bev.py, located at line number 20.
 *	Run the BEV feature selection process by executing the following command.
 ```
 python bev.py
