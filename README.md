@@ -35,3 +35,7 @@ python bev.py
 *	Sample prepared data files are saved in the datasets folder.
 
 It is recommended to perform some basic data exploration and cleaning to ensure the data is accurate, consistent, and free from errors.
+
+# Datasets
+The "datasets" folder comprises all the datasets on which the BEV approach has been applied and compared to other techniques. Each dataset follows a common pattern, with the output variable located in the first column (indexed at zero) and the remaining columns serving as inputs.
+
