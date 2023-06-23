@@ -31,7 +31,7 @@ python bev.py
 *	The data must be in CSV format.
 *	The output column should be placed as the first column (i.e., zero index) in the file.
 *	There can be any number of input columns as needed.
-*	The data file should have only one header row at the top, specifying the column names.
+*	The data file should have no header row at the top.
 *	Sample prepared data files are saved in the datasets folder.
 
 It is recommended to perform some basic data exploration and cleaning to ensure the data is accurate, consistent, and free from errors.
